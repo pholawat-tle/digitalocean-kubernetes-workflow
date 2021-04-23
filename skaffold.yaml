@@ -1,0 +1,24 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+    - image: client-image
+      context: client
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        - '**/*.html'
+        - '**/*.css'
+        - '**/*.js'
+    - image: server-image
+      context: server
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        - '**/*.js'
+deploy:
+  kubectl:
+    manifests:
+      - 'k8s/*'
