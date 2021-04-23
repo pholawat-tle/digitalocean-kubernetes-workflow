@@ -1,11 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/use-regex: /$1
+    nginx.ingress.kubernetes.io/use-regex: 'true' # necessary b/c we use regEx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1 # optional but make lifes easier => server will receive path instead of /path
+    
 spec:
   rules:
     - http:

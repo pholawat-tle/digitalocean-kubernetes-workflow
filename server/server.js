@@ -10,6 +10,6 @@ app.get('/healthCheck', (req, res) => {
     res.status(200).send('Healthy!');
 });
 
-app.listen(PORT, () => {
+app.listen(5000, () => {
     console.log(`Listening to Port ${PORT}`);
 });
