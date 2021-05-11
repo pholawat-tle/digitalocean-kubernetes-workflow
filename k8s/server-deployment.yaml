@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
       - name: server-pod
-        image: server-image
+        image: pholawat5/server-image
         ports:
         - containerPort: 5000
