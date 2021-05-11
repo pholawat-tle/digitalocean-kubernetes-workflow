@@ -38,6 +38,6 @@ jobs:
       run: |
         doctl kubernetes cluster kubeconfig save 1e9e3705-e9f0-4cdd-8a8d-c2ac0b40ac54
         kubectl apply -f k8s
-        kubectl set image deployments/client-deployment client=pholawat5/client-image:$GITHUB_SHA
-        kubectl set image deployments/server-deployment server=pholawat5/server-image:$GITHUB_SHA
+        kubectl set image deployments/client-deployment client-pod=pholawat5/client-image:$GITHUB_SHA
+        kubectl set image deployments/server-deployment server-pod=pholawat5/server-image:$GITHUB_SHA
     
