@@ -1,16 +1,16 @@
-# Example Architecture in Kubernetes using nginx Ingress
-This includes an Node.js app with Express framework boilerplate and a React app created using `npx create-react-app`
+# Deploying Docker Images to Kubernetes
+This includes a github action that build and publixh docker images to docker hub and imperatively set the kubernetes on Digital Ocean to update the image
 
-## Prerequisites ( to run on your local machine )
-- [skaffold](https://skaffold.dev/)
-- [NGINX Ingress](https://kubernetes.github.io/ingress-nginx/deploy/)
-- Kubernetes cluster ( [minikube](https://minikube.sigs.k8s.io/docs/start/) or docker desktop's kubernetes )
+## Prerequisites
+- Docker Hub Account
+- Digital Ocean Account
 
 
 ## Usage
-- Run `skaffold dev`
+- Create GitHub Secret Environments ( DOCKER_USERNAME, DOCKER_PASSWORD, DIGITALOCEAN_ACCESS_TOKEN )
+- Run the workflow from GitHub Actions tab
 
 | App  | URL |
 | ------------- | ------------- |
-| React.js  | http://minikube-ip:80  |
-| Express.js  | http://minikube-ip:80/api/  |
+| React.js  | http://ingress-endpoint:80  |
+| Express.js  | http://ingress-endpoint:80/api/  |
