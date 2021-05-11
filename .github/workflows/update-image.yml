@@ -1,0 +1,43 @@
+name: Build and Publish Dockerfile and Update Kubernetes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build the Client Docker image
+      run: docker build -f ./client/Dockerfile.dev -t pholawat5/client-image -t pholawat5/client-image:$GITHUB_SHA ./client
+
+    - name: Build the Server Docker image
+      run: docker build -f ./server/Dockerfile.dev -t pholawat5/server-image -t pholawat5/server-image:$GITHUB_SHA ./server
+    
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
+      
+    - name: Push the Client Image to Docker Hub
+      run: docker push pholawat5/client-image
+    - name: Push the Client Image to Docker Hub with SHA tag
+      run: docker push pholawat5/client-image:$GITHUB_SHA
+
+    - name: Push the Server Image to Docker Hub
+      run: docker push pholawat5/server-image
+    - name: Push the Server Image to Docker Hub with SHA tag
+      run: docker push pholawat5/server-image:$GITHUB_SHA
+        
+    - name: Start doctl
+      uses: digitalocean/action-doctl@v2.1.0
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        
+    - name: Apply k8s config and Imperatively set new images
+      run: |
+        doctl kubernetes cluster kubeconfig save 1e9e3705-e9f0-4cdd-8a8d-c2ac0b40ac54
+        kubectl apply -f k8s
+        kubectl set image deployments/client-deployment client=pholawat5/client-image:$GITHUB_SHA
+        kubectl set image deployments/server-deployment server=pholawat5/server-image:$GITHUB_SHA
+    
