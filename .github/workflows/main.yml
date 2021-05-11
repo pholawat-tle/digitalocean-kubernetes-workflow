@@ -20,7 +20,6 @@ jobs:
         uses: digitalocean/action-doctl@v2.1.0
         with:
           # Version of doctl to install
-          version: default # optional, default is latest
           # DigitalOcean API Token
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
